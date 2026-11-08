@@ -35,3 +35,13 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t car-price-mlops:${{ github.run_number }} .
+
+      - name: Sign in to Docker Hub
+        env:
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: printf '%s' "$DOCKERHUB_TOKEN" | docker login --username ramzan02 --password-stdin
+
+      - name: Publish image to Docker Hub
+        run: |
+          docker tag car-price-mlops:${{ github.run_number }} ramzan02/car-price-mlops:build-${{ github.run_number }}
+          docker push ramzan02/car-price-mlops:build-${{ github.run_number }}
