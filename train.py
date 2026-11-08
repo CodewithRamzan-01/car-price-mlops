@@ -21,6 +21,9 @@ mae = mean_absolute_error(prices_test, predictions)
 print(f"Training cars: {len(features_train)}")
 print(f"Test cars: {len(features_test)}")
 print(f"Mean absolute error: {mae:.2f} lakh")
+if mae > 3.0:
+    raise SystemExit(f"Quality check failed: {mae:.2f} lakh is above 3.00 lakh.")
 
+print("Quality check passed.")
 joblib.dump(model, "model.pkl")
 print("Saved model.pkl")
